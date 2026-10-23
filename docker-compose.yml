@@ -1,0 +1,48 @@
+
+services:
+  postgresdb:
+    image: postgres:16-alpine
+    container_name: garden-postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: gardenmaintenance
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - garden-network
+    restart: on-failure
+
+  backend:
+    image: manjusha07/garden-backend:1.0
+    container_name: garden-backend-2400032300
+    ports:
+      - "2006:2006"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/gardenmaintenance
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: docker
+    depends_on:
+      - postgresdb
+    restart: on-failure
+    networks:
+      - garden-network
+
+  frontend:
+    image: manjusha07/garden-frontend:1.0
+    container_name: garden-frontend-2400032300
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: on-failure
+    networks:
+      - garden-network
+
+volumes:
+  postgres_data:
+
+networks:
+  garden-network:
