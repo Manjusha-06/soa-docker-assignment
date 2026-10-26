@@ -1,3 +1,4 @@
+
 name: Garden Maintenance Fullstack
 
 on:
@@ -30,7 +31,7 @@ jobs:
           context: ./GardenMaintenanceServiceProject
           file: ./GardenMaintenanceServiceProject/Dockerfile
           push: ${{ github.event_name == 'push' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/garden-backend-2400032300:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docker-backend-2400032300:latest
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
@@ -38,4 +39,4 @@ jobs:
           context: ./garden-maintenance-frontend
           file: ./garden-maintenance-frontend/Dockerfile
           push: ${{ github.event_name == 'push' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/garden-frontend-2400032300:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docker-frontend-2400032300:latest
