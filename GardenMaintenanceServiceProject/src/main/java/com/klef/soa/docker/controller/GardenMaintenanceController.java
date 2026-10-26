@@ -19,7 +19,7 @@ import com.klef.soa.docker.service.GardenMaintenanceServiceImpl;
 
 @RestController
 @RequestMapping("/garden")
-@CrossOrigin(origins = "http://localhost:3007")
+@CrossOrigin(origins = "http://localhost:3000")
 public class GardenMaintenanceController {
 
 	@Autowired

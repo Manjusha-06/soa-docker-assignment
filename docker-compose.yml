@@ -16,8 +16,8 @@ services:
     restart: on-failure
 
   backend:
-    image: manjusha07/garden-backend:1.0
-    container_name: garden-backend-2400032300
+    image: manjusha07/garden-backend-2400032300:latest
+    container_name: garden-backend
     ports:
       - "2006:2006"
     environment:
@@ -25,14 +25,15 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: docker
     depends_on:
+
       - postgresdb
     restart: on-failure
     networks:
       - garden-network
 
   frontend:
-    image: manjusha07/garden-frontend:1.0
-    container_name: garden-frontend-2400032300
+    image: manjusha07/garden-frontend-2400032300:latest
+    container_name: garden-frontend
     ports:
       - "3000:80"
     depends_on:
