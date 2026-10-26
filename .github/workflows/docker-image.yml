@@ -9,6 +9,9 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout source code
@@ -17,12 +20,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to Docker Hub
+      - name: Log in to GitHub Container Registry
         if: github.event_name == 'push'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push backend image
         uses: docker/build-push-action@v6
@@ -30,7 +34,7 @@ jobs:
           context: ./GardenMaintenanceServiceProject
           file: ./GardenMaintenanceServiceProject/Dockerfile
           push: ${{ github.event_name == 'push' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/garden-backend-2400032300:latest
+          tags: ghcr.io/manjusha-06/garden-backend-2400032300:latest
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
@@ -38,4 +42,4 @@ jobs:
           context: ./garden-maintenance-frontend
           file: ./garden-maintenance-frontend/Dockerfile
           push: ${{ github.event_name == 'push' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/garden-frontend-2400032300:latest
+          tags: ghcr.io/manjusha-06/garden-frontend-2400032300:latest
